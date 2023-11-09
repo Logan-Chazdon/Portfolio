@@ -1,17 +1,15 @@
-
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
 import example.imageviewer.*
 import example.imageviewer.core.BitmapFilter
@@ -41,7 +39,7 @@ internal val subpadding = 8.dp
 @Composable
 fun SubSection(
     title: String,
-    subtitle : String? = null,
+    subtitle: String? = null,
 ) {
     Text(
         text = title,
@@ -68,100 +66,113 @@ fun Section(title: String) {
 @Composable
 fun Home() {
     val state = rememberLazyListState()
-    val scope= rememberCoroutineScope()
+    val scope = rememberCoroutineScope()
 
-    LazyColumn(
-        userScrollEnabled = true,
-        state = state,
-        contentPadding = PaddingValues(24.dp),
-    ) {
-        item {
-            Text(
-                text = "Logan Chazdon",
-                style = MaterialTheme.typography.h1
-            )
+    Column {
+        LazyColumn(
+            userScrollEnabled = true,
+            state = state,
+            contentPadding = PaddingValues(24.dp),
+        ) {
+            item {
+                Text(
+                    text = "Logan Chazdon",
+                    style = MaterialTheme.typography.h1
+                )
+            }
+
+            item {
+                Text(
+                    text = "This is my description and objectives This is my description and objectivesThis is my description and objectivesThis is my description and objectivesThis is my description and objectivesThis is my description and objectives",
+                    style = MaterialTheme.typography.body2,
+                    modifier = Modifier.padding(start = subpadding)
+                )
+            }
+
+            item {
+                Section("Projects and Experience")
+            }
+
+            item {
+                SubSection("D&D Helper", "Publicly available open source Android app made with Jetpack Compose")
+            }
+
+            item {
+                SubSection("Bot Ball", "Robotics Competition")
+            }
+
+            item {
+                SubSection(
+                    "Web Design TA",
+                    "Assisted students, explained material, graded websites, assisted with syllabus"
+                )
+            }
+
+            item {
+                SubSection("Organization Assistant", "Discord bot made with Python")
+            }
+
+            item {
+                SubSection("School Website", "Updated official school website")
+            }
+
+            item {
+                Section("Eduction")
+            }
+
+            item {
+                SubSection(
+                    "Central New Mexico Community College",
+                    "Attended from xx/xx/xx to xx/xx/xx as a dual credit student"
+                )
+            }
         }
 
-        item {
-            Text(
-                text = "This is my description and objectives This is my description and objectivesThis is my description and objectivesThis is my description and objectivesThis is my description and objectivesThis is my description and objectives",
-                style = MaterialTheme.typography.body2,
-                modifier = Modifier.padding(start = subpadding)
-            )
-        }
+        val imgs: List<String> = listOf(
+            "github-mark.png",
+            "linkedin-black-icon.png",
+            "email-icon.png"
+        )
 
-        item {
-            Section("Projects and Experience")
-        }
+        val titles = listOf(
+            "GitHub",
+            "LinkedIn",
+            "loganchazdon@gmail.com"
+        )
+        val links = listOf(
+            "https://github.com/Logan-Chazdon",
+            "https://www.linkedin.com/in/logan-chazdon-76940a248",
+            "loganchazdon@gmail.com"
+        )
 
-        item {
-            SubSection("D&D Helper", "Publicly available open source Android app made with Jetpack Compose")
-        }
-
-        item {
-            SubSection("Bot Ball", "Robotics Competition")
-        }
-
-        item {
-            SubSection("Web Design TA", "Assisted students, explained material, graded websites, assisted with syllabus")
-        }
-
-        item {
-            SubSection("Organization Assistant", "Discord bot made with Python")
-        }
-
-        item {
-            SubSection("School Website", "Updated official school website")
-        }
-
-        item {
-            Section("Eduction")
-        }
-
-        item {
-            SubSection("Central New Mexico Community College", "Attended from xx/xx/xx to xx/xx/xx as a dual credit student")
-        }
-
-        item {
-            Section("Accounts and Contact information")
-        }
-
-        item {
-            val imgs : List<String> = listOf(
-                "github-mark.png",
-                "linkedin-black-icon.png",
-                "email-icon.png"
-            )
-
-            val titles = listOf(
-                "GitHub",
-                "LinkedIn",
-                "loganchazdon@gmail.com"
-            )
-            val links = listOf(
-                "https://github.com/Logan-Chazdon",
-                "https://www.linkedin.com/in/logan-chazdon-76940a248",
-                "loganchazdon@gmail.com"
-            )
-
-            Column(
-                modifier = Modifier.fillMaxWidth(0.3f)
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(color = MaterialTheme.colors.primarySurface)
+        ) {
+            Row(
+                modifier = Modifier.padding(20.dp),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                val uriHandler = LocalUriHandler.current
+                val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
                 imgs.forEachIndexed { index, img ->
                     Row(
-                        modifier = Modifier.clickable { uriHandler.openUri(links[index]) }
+                        modifier = Modifier.clickable { uriHandler.openUri(links[index]) },
+                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
                     ) {
-                        Image(
+                        androidx.compose.foundation.Image(
                             painter = painterResourceCached(img),
-                            contentDescription = "",
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier.size(50.dp)
+                            contentDescription = titles[index],
+                            contentScale = androidx.compose.ui.layout.ContentScale.Fit,
+                            modifier = Modifier.size(30.dp)
                         )
 
                         Spacer(modifier = Modifier.width(5.dp))
 
-                        Text(text = titles[index], style= MaterialTheme.typography.h5)
+                        Text(
+                            text = titles[index],
+                            style = MaterialTheme.typography.h5
+                        )
                     }
                 }
             }
