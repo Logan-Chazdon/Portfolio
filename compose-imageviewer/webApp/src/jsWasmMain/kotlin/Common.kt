@@ -50,7 +50,7 @@ fun SubSection(
         Text(
             text = it,
             style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(start = subpadding).absoluteOffset(y = (-6).dp)
+            modifier = Modifier.padding(start = subpadding).absoluteOffset(y = (-4).dp)
         )
     }
 }
