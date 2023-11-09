@@ -29,4 +29,5 @@ allprojects {
             kotlinCompilerPluginArgs.add("suppressKotlinVersionCompatibilityCheck=$kotlinVersion")
         }
     }
+
 }

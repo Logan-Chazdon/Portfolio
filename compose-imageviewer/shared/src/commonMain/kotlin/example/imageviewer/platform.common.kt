@@ -15,7 +15,7 @@ private val cache = mutableStateMapOf<String, Painter>()
 
 @OptIn(ExperimentalResourceApi::class)
 @Composable
-internal fun painterResourceCached(res: String): Painter {
+fun painterResourceCached(res: String): Painter {
     return if (cache.containsKey(res)) {
         cache[res]!!
     } else {
