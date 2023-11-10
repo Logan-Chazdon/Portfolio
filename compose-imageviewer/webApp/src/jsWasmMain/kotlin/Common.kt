@@ -1,13 +1,17 @@
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.onClick
+import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.unit.dp
@@ -34,16 +38,72 @@ internal fun ImageViewerWeb() {
     Home()
 }
 
+@Composable
+fun TechStack(
+    data: List<String>,
+    ui: List<String>,
+    other: List<String>,
+    modifier: Modifier = Modifier
+) {
+    @Composable
+    fun techDisplay(tech: String) {
+        Text(
+            text = tech,
+            style = MaterialTheme.typography.body1
+        )
+    }
+
+    Card(
+        backgroundColor = MaterialTheme.colors.secondary
+    ){
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = modifier.padding(4.dp)
+        ) {
+            Text(
+                text = "Tech Stack",
+                style = MaterialTheme.typography.h4
+            )
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                val groups = mutableListOf(ui, other, data)
+                val titles = mutableListOf("UI", "Middle", "Data")
+                groups.forEachIndexed { index, group ->
+                    Column {
+                        Text(text = titles[index], style = MaterialTheme.typography.h5)
+
+                        group.forEach {
+                            techDisplay(it)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 internal val subpadding = 8.dp
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SubSection(
     title: String,
     subtitle: String? = null,
+    link: String? = null
 ) {
+    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+    val modifier = Modifier.apply {
+        if (link != null) {
+            this.onClick {
+                uriHandler.openUri(link)
+            }
+        }
+    }
     Text(
         text = title,
-        style = MaterialTheme.typography.h3
+        style = MaterialTheme.typography.h3,
+        modifier = modifier
     )
 
     subtitle?.let {
@@ -94,7 +154,21 @@ fun Home() {
             }
 
             item {
-                SubSection("D&D Helper", "Publicly available open source Android app made with Jetpack Compose")
+                SubSection(
+                    "D&D Helper",
+                    "Publicly available open source Android app made with Jetpack Compose",
+                    "https://play.google.com/store/apps/details?id=gmail.loganchazdon.dndhelper"
+                )
+            }
+
+            item {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    TechStack(
+                        data = listOf("SQLite", "Room", "JSON", "GSON"),
+                        ui = listOf("Jetpack Compose", "Material Design"),
+                        other = listOf("Junit", "Dagger-Hilt", "Coroutines")
+                    )
+                }
             }
 
             item {
@@ -109,7 +183,7 @@ fun Home() {
             }
 
             item {
-                SubSection("Organization Assistant", "Discord bot made with Python")
+                SubSection("Organizational Assistant", "Discord bot made with Python")
             }
 
             item {
