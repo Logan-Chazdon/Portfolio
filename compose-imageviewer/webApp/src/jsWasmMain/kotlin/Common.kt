@@ -55,7 +55,7 @@ fun TechStack(
 
     Card(
         backgroundColor = MaterialTheme.colors.secondary
-    ){
+    ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = modifier.padding(4.dp)
@@ -162,12 +162,39 @@ fun Home() {
             }
 
             item {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    TechStack(
-                        data = listOf("SQLite", "Room", "JSON", "GSON"),
-                        ui = listOf("Jetpack Compose", "Material Design"),
-                        other = listOf("Junit", "Dagger-Hilt", "Coroutines")
-                    )
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Row {
+                        val imgs = listOf(
+                            "D&DHelper_classes.png",
+                            "D&DHelper_spell.png",
+                            "D&DHelper_stats.png",
+                            "D&DHelper_subclass.png"
+                        )
+                        imgs.forEach { img ->
+                            androidx.compose.foundation.Image(
+                                painter = painterResourceCached(img),
+                                contentDescription = "D&D Helper screenshot",
+                                contentScale = androidx.compose.ui.layout.ContentScale.Fit,
+                                modifier = Modifier.height(360.dp)
+                            )
+                        }
+
+                    }
+
+                    Column {
+                        TechStack(
+                            data = listOf("SQLite", "Room", "JSON", "GSON"),
+                            ui = listOf("Jetpack Compose", "Material Design"),
+                            other = listOf("Junit", "Dagger-Hilt", "Coroutines", "Gradle")
+                        )
+
+                        LinksSection(
+                            imgs = mutableListOf("github-mark.png", "playstore_icon.png"),
+                            links = mutableListOf("https://github.com/Logan-Chazdon/DnDHelper", "https://play.google.com/store/apps/details?id=gmail.loganchazdon.dndhelper"),
+                            titles = mutableListOf("Github", "Google Play")
+                        )
+
+                    }
                 }
             }
 
@@ -218,39 +245,46 @@ fun Home() {
             "https://www.linkedin.com/in/logan-chazdon-76940a248",
             "loganchazdon@gmail.com"
         )
-
         Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(color = MaterialTheme.colors.primarySurface)
         ) {
+            LinksSection(imgs, titles, links)
+        }
+    }
+}
+
+@Composable
+fun LinksSection(imgs: List<String>, titles: List<String>? = null, links: List<String>) {
+    Row(
+        modifier = Modifier.padding(20.dp),
+        horizontalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
+        imgs.forEachIndexed { index, img ->
             Row(
-                modifier = Modifier.padding(20.dp),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                modifier = Modifier.clickable { uriHandler.openUri(links[index]) },
+                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
             ) {
-                val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
-                imgs.forEachIndexed { index, img ->
-                    Row(
-                        modifier = Modifier.clickable { uriHandler.openUri(links[index]) },
-                        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-                    ) {
-                        androidx.compose.foundation.Image(
-                            painter = painterResourceCached(img),
-                            contentDescription = titles[index],
-                            contentScale = androidx.compose.ui.layout.ContentScale.Fit,
-                            modifier = Modifier.size(30.dp)
-                        )
+                androidx.compose.foundation.Image(
+                    painter = painterResourceCached(img),
+                    contentDescription = titles?.getOrNull(index )?: links[index],
+                    contentScale = androidx.compose.ui.layout.ContentScale.Fit,
+                    modifier = Modifier.size(30.dp)
+                )
 
-                        Spacer(modifier = Modifier.width(5.dp))
+                Spacer(modifier = Modifier.width(5.dp))
 
-                        Text(
-                            text = titles[index],
-                            style = MaterialTheme.typography.h5
-                        )
-                    }
+                titles?.get(index)?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.h5
+                    )
                 }
             }
         }
+
     }
 }
 
