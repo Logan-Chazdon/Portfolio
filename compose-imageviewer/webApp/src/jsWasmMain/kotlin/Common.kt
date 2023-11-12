@@ -336,6 +336,7 @@ fun Home() {
                             "Asynchronous Software",
                             "Database Design",
                             "Linux",
+                            "Virtualization",
                             modifier = Modifier.fillMaxWidth().padding(8.dp)
                         )
                     }
