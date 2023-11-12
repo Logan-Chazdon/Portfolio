@@ -337,6 +337,8 @@ fun Home() {
                             "Database Design",
                             "Linux",
                             "Virtualization",
+                            "Jupyter notebooks",
+                            "TensorFlow",
                             modifier = Modifier.fillMaxWidth().padding(8.dp)
                         )
                     }
