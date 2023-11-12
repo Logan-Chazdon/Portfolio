@@ -5,15 +5,20 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.onClick
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.primarySurface
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import example.imageviewer.*
 import example.imageviewer.core.BitmapFilter
@@ -26,6 +31,7 @@ import example.imageviewer.utils.ioDispatcher
 import example.imageviewer.view.ToastState
 import kotlinx.coroutines.CoroutineScope
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import kotlin.math.ceil
 
 expect fun createWrappedHttpClient(): WrappedHttpClient
 
@@ -54,18 +60,20 @@ fun TechStack(
     }
 
     Card(
-        backgroundColor = MaterialTheme.colors.secondary
+        backgroundColor = MaterialTheme.colors.secondary,
+        modifier = Modifier.width(400.dp)
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier.padding(4.dp)
+            modifier = modifier.padding(4.dp).fillMaxWidth()
         ) {
             Text(
                 text = "Tech Stack",
                 style = MaterialTheme.typography.h4
             )
             Row(
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                horizontalArrangement = Arrangement.SpaceAround,
+                modifier = Modifier.fillMaxWidth()
             ) {
                 val groups = mutableListOf(ui, other, data)
                 val titles = mutableListOf("UI", "Middle", "Data")
@@ -83,7 +91,11 @@ fun TechStack(
     }
 }
 
-internal val subpadding = 8.dp
+internal val subpadding = 12.dp
+internal const val oaText =
+    "During the last weeks of my Python course at CNM, I struggled to find motivation for my final project. Soon, motivation came courtesy of my classmates and our collective lack of organization in the face of the COVID-19 pandemic. So we talked about our collective struggles and I decided that my project could help us support each other. So I created a collaborative task tracking and organization. Not only did this get me a perfect score on my python final but it also helped my class mates and I stay organized and productive through out the pandemic lockdowns."
+internal const val botballText =
+    "In the KISS Institute for Practical Robotics competition Bot Ball, my partner and I created robots using provided materials. We then used C to program them to complete a set of objectives designed to maximize points and minimize time and potential failure rate. I led all of the programming for our team and used image recognition to complete objectives with randomized locations."
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -124,6 +136,25 @@ fun Section(title: String) {
 }
 
 @Composable
+fun BulletList(vararg items: String) {
+    Column{
+        items.forEach {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Card(
+                    shape = CircleShape,
+                    backgroundColor = MaterialTheme.colors.onSecondary
+                ) {}
+                Spacer(modifier = Modifier.padding(5.dp))
+                Text(it, style = MaterialTheme.typography.h6)
+            }
+        }
+    }
+}
+
+@Composable
 fun Home() {
     val state = rememberLazyListState()
     val scope = rememberCoroutineScope()
@@ -150,7 +181,7 @@ fun Home() {
             }
 
             item {
-                Section("Projects and Experience")
+                Section("Projects")
             }
 
             item {
@@ -189,9 +220,12 @@ fun Home() {
                         )
 
                         LinksSection(
-                            imgs = mutableListOf("github-mark.png", "playstore_icon.png"),
-                            links = mutableListOf("https://github.com/Logan-Chazdon/DnDHelper", "https://play.google.com/store/apps/details?id=gmail.loganchazdon.dndhelper"),
-                            titles = mutableListOf("Github", "Google Play")
+                            imgs = listOf("github-mark.png", "playstore_icon.png"),
+                            links = listOf(
+                                "https://github.com/Logan-Chazdon/DnDHelper",
+                                "https://play.google.com/store/apps/details?id=gmail.loganchazdon.dndhelper"
+                            ),
+                            titles = listOf("Github", "Google Play")
                         )
 
                     }
@@ -200,22 +234,35 @@ fun Home() {
 
             item {
                 SubSection("Bot Ball", "Robotics Competition")
-            }
-
-            item {
-                SubSection(
-                    "Web Design TA",
-                    "Assisted students, explained material, graded websites, assisted with syllabus"
+                Text(
+                    modifier = Modifier.fillMaxWidth(0.6f),
+                    text = botballText
                 )
             }
 
-            item {
-                SubSection("Organizational Assistant", "Discord bot made with Python")
-            }
 
             item {
-                SubSection("School Website", "Updated official school website")
+                SubSection("Organizational Assistant", "Discord bot made with Python")
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
+                    Text(
+                        modifier = Modifier.fillMaxWidth(0.6f),
+                        text = oaText
+                    )
+                    Column {
+                        TechStack(
+                            ui = listOf("Discord API"),
+                            data = listOf("MongoDB", "Regex"),
+                            other = listOf("Python")
+                        )
+                        LinksSection(
+                            imgs = listOf("github-mark.png"),
+                            links = listOf("https://github.com/Logan-Chaazdon/Organization-Assitant/blob/main/Discord%20bot%200.3.py"),
+                            titles = listOf("Github")
+                        )
+                    }
+                }
             }
+
 
             item {
                 Section("Eduction")
@@ -226,6 +273,73 @@ fun Home() {
                     "Central New Mexico Community College",
                     "Attended from xx/xx/xx to xx/xx/xx as a dual credit student"
                 )
+
+                Text(
+                    text = "Notable Courses",
+                    style = MaterialTheme.typography.h4
+                )
+                ResponsiveStringGrid("Android Development", "Java", "C++", "C", "Linux", modifier = Modifier.fillMaxWidth(0.5f))
+            }
+
+            item {
+                SubSection(
+                    "Media Arts Collaborative Charter School",
+                    "Attended from xx/xx/xx to xx/xx/xx in the programming and design pathway"
+                )
+                Text(
+                    text = "Notable Courses",
+                    style = MaterialTheme.typography.h4
+                )
+                ResponsiveStringGrid("Web Design", "Graphic Design", "Animation", modifier = Modifier.fillMaxWidth(0.5f))
+            }
+
+            item {
+                SubSection(
+                    "Web Design TA",
+                    "Assisted students, explained material, and graded websites"
+                )
+            }
+
+            item {
+                SubSection("MACCS Website Update", "Updated school website as a student")
+            }
+
+            item {
+                Section("Languages and Technologies")
+                Row {
+                    LanguageDisplay(
+                        mapOf(
+                            "Kotlin" to 5,
+                            "Java" to 5,
+                            "SQL" to 4,
+                            "C" to 4,
+                            "C++" to 3,
+                            "Python" to 2,
+                            "C#" to 2
+                        ),
+                        Modifier.weight(1f).padding(end = 24.dp)
+                    )
+
+                    Card(
+                        modifier = Modifier.weight(2f),
+                        backgroundColor = MaterialTheme.colors.secondary
+                    ){
+                        ResponsiveStringGrid(
+                            "Flask",
+                            "MVVM",
+                            "MVP",
+                            "Jetpack Compose",
+                            "Git",
+                            "Embedded Software",
+                            "CI/CD",
+                            "Android SDK",
+                            "Asynchronous Software",
+                            "Database Design",
+                            "Linux",
+                            modifier = Modifier.fillMaxWidth().padding(8.dp)
+                        )
+                    }
+                }
             }
         }
 
@@ -236,7 +350,7 @@ fun Home() {
         )
 
         val titles = listOf(
-            "GitHub",
+            "Github",
             "LinkedIn",
             "loganchazdon@gmail.com"
         )
@@ -255,6 +369,96 @@ fun Home() {
     }
 }
 
+/**
+ * Responsively lays out all strings in a grid and left aligns each column.
+ * @param titles All strings to be laid out.
+ * @param modifier Modifier to be applied to the top level composable.
+ */
+@Composable
+fun ResponsiveStringGrid(vararg titles: String, modifier: Modifier = Modifier) {
+    val textMeasurer = rememberTextMeasurer()
+    titles.sortByDescending { it.length }
+    var size by remember { mutableStateOf(IntSize.Zero) }
+
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        modifier = modifier.onSizeChanged {
+            size = it
+        }.padding(8.dp),
+    ) {
+        val pixels = textMeasurer.measure(titles[0], MaterialTheme.typography.h6).size.width
+        val measuredTitles = mutableMapOf<Dp, MutableList<String>>()
+        val columns = ceil(size.width.toDouble() / pixels.toDouble())
+        val rows = ceil(titles.size / columns)
+        titles.forEach {
+            var done = false
+            val tdp = with(LocalDensity.current) {  textMeasurer.measure(it, MaterialTheme.typography.h6).size.width.toDp() }
+            for(entry in measuredTitles) {
+                if(tdp <= entry.key && entry.value.size < rows) {
+                    measuredTitles[entry.key]!!.add(it)
+                    done = true
+                    break
+                }
+            }
+            if(!done) {
+                measuredTitles[tdp] = mutableListOf(it)
+            }
+        }
+
+        measuredTitles.forEach { entry ->
+            Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.width(entry.key)) {
+                entry.value.forEach {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.h6,
+                        modifier = Modifier
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun LanguageDisplay(langs: Map<String, Int>, modifier: Modifier) {
+    Card(
+        backgroundColor = MaterialTheme.colors.secondary,
+        modifier = modifier
+    ) {
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth().padding(5.dp)
+        ) {
+            Column {
+                langs.keys.forEach {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.h6
+                    )
+                }
+            }
+            Column {
+                langs.values.forEach {
+                    Row {
+                        for (i in 0 until 5) {
+                            Icon(
+                                Icons.Default.Star,
+                                "",
+                                tint = if (i < it) {
+                                    MaterialTheme.colors.primaryVariant
+                                } else {
+                                    MaterialTheme.colors.surface
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 @Composable
 fun LinksSection(imgs: List<String>, titles: List<String>? = null, links: List<String>) {
     Row(
@@ -269,7 +473,7 @@ fun LinksSection(imgs: List<String>, titles: List<String>? = null, links: List<S
             ) {
                 androidx.compose.foundation.Image(
                     painter = painterResourceCached(img),
-                    contentDescription = titles?.getOrNull(index )?: links[index],
+                    contentDescription = titles?.getOrNull(index) ?: links[index],
                     contentScale = androidx.compose.ui.layout.ContentScale.Fit,
                     modifier = Modifier.size(30.dp)
                 )
