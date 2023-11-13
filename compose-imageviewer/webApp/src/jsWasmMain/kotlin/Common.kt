@@ -306,6 +306,10 @@ fun Home() {
             }
 
             item {
+                SubSection("Howard Zinn Historical Thought Award", "Awarded for excellent writing and Academic discourse")
+            }
+
+            item {
                 Section("Languages and Technologies")
                 Row {
                     LanguageDisplay(
