@@ -319,6 +319,7 @@ fun Home() {
                             "SQL" to 4,
                             "C" to 4,
                             "C++" to 3,
+                            "Bash" to 3,
                             "Python" to 2,
                             "C#" to 2
                         ),
