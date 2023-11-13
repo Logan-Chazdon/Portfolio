@@ -349,6 +349,14 @@ fun Home() {
                     }
                 }
             }
+
+            item {
+                Section("Organization and Clubs")
+                SubSection("Nation Honor Society")
+                SubSection("Student Government", "Planned events and assisted in setting fund raiser pricing")
+                SubSection("Robotics Club", "Founding member at Media Arts Collaborative Charter School")
+            }
+
         }
 
         val imgs: List<String> = listOf(
