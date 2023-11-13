@@ -97,7 +97,7 @@ internal const val oaText =
 internal const val botballText =
     "In the KISS Institute for Practical Robotics competition Bot Ball, my partner and I created robots using provided materials. We then used C to program them to complete a set of objectives designed to maximize points and minimize time and potential failure rate. I led all of the programming for our team and used image recognition to complete objectives with randomized locations."
 internal const val descriptionAndObjectivesText =
-    "I am a motivated 19 year old software engineer and native android developer with a background in robotics and web-design. I am looking for a company at which I can sharpen my skills, or learn new ones, while delivering interesting and important products to others. Recently I've been focusing a lot on Jetpack Compose and have been following and using it since alpha."
+    "I am a motivated 19 year old software engineer and native android developer with a background in robotics and web-design. I am looking for a company at which I can sharpen my skills, or learn new ones, while delivering interesting and important products to others. Recently I've been focusing a lot on Jetpack Compose and have been using it since alpha."
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SubSection(
