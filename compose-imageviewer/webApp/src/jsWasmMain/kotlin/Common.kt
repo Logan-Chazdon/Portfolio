@@ -1,3 +1,4 @@
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -5,7 +6,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.onClick
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Star
@@ -134,25 +134,6 @@ fun Section(title: String) {
         text = title,
         style = MaterialTheme.typography.h2
     )
-}
-
-@Composable
-fun BulletList(vararg items: String) {
-    Column{
-        items.forEach {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Card(
-                    shape = CircleShape,
-                    backgroundColor = MaterialTheme.colors.onSecondary
-                ) {}
-                Spacer(modifier = Modifier.padding(5.dp))
-                Text(it, style = MaterialTheme.typography.h6)
-            }
-        }
-    }
 }
 
 @Composable
