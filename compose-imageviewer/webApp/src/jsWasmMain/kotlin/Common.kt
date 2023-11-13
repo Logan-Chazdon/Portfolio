@@ -1,3 +1,4 @@
+
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -102,7 +103,7 @@ internal const val botballText =
     "In the KISS Institute for Practical Robotics competition Bot Ball, my partner and I created robots using provided materials. We then used C to program them to complete a set of objectives designed to maximize points and minimize time and potential failure rate. I led all of the programming for our team and used image recognition to complete objectives with randomized locations."
 internal const val descriptionAndObjectivesText =
     "I am a motivated 19 year old software engineer and native android developer with a background in robotics and web-design. I am looking for a company at which I can sharpen my skills, or learn new ones, while delivering interesting and important products to others. Recently I've been focusing a lot on Jetpack Compose and have been using it since alpha."
-
+internal const val websiteText = "This website is made with jetpack compose multiplatform and can be viewed as a native android application, Ios Application, desktop Application or Website, all with the same codebase."
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SubSection(
@@ -141,6 +142,7 @@ fun Section(title: String) {
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun Home() {
     val state = rememberLazyListState()
@@ -219,15 +221,6 @@ fun Home() {
         }
 
         item {
-            SubSection("Bot Ball", "Robotics Competition")
-            Text(
-                modifier = Modifier.fillMaxWidth(0.6f),
-                text = botballText
-            )
-        }
-
-
-        item {
             SubSection("Organizational Assistant", "Discord bot made with Python")
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 Text(
@@ -249,6 +242,22 @@ fun Home() {
             }
         }
 
+        item {
+            SubSection("Bot Ball", "Robotics Competition")
+            Text(
+                modifier = Modifier.fillMaxWidth(0.6f),
+                text = botballText
+            )
+        }
+
+
+        item {
+            SubSection("Portfolio Website")
+            Text(
+                text = websiteText,
+                modifier = Modifier.fillMaxWidth(0.6f)
+            )
+        }
 
         item {
             Section("Eduction")
