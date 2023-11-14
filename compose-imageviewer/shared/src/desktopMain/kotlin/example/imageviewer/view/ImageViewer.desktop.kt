@@ -3,27 +3,26 @@ package example.imageviewer.view
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.window.*
+import androidx.compose.ui.window.ApplicationScope
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.WindowPosition
+import androidx.compose.ui.window.WindowState
 import example.imageviewer.*
-import example.imageviewer.Notification
 import example.imageviewer.core.BitmapFilter
 import example.imageviewer.core.FilterType
-import example.imageviewer.model.*
+import example.imageviewer.model.WrappedHttpClient
 import example.imageviewer.model.filtration.BlurFilter
 import example.imageviewer.model.filtration.GrayScaleFilter
 import example.imageviewer.model.filtration.PixelFilter
 import example.imageviewer.style.ImageViewerTheme
-import example.imageviewer.utils.decorateWithDiskCache
 import example.imageviewer.utils.getPreferredWindowSize
 import example.imageviewer.utils.ioDispatcher
 import io.ktor.client.*
@@ -34,7 +33,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import java.io.File
 
 class ExternalNavigationEventBus {
     private val _events = MutableSharedFlow<ExternalImageViewerEvent>(
@@ -85,7 +83,6 @@ fun ApplicationScope.ImageViewerDesktop() {
                 modifier = Modifier.fillMaxSize()
             ) {
                 ImageViewerCommon(
-                    dependencies = dependencies,
                     externalEvents = externalNavigationEventBus.events
                 )
                 Toast(toastState)
@@ -96,7 +93,6 @@ fun ApplicationScope.ImageViewerDesktop() {
 
 private fun getDependencies(ioScope: CoroutineScope, toastState: MutableState<ToastState>) =
     object : Dependencies {
-        override val pictures: SnapshotStateList<PictureData> = mutableStateListOf(*resourcePictures)
         override val ioScope: CoroutineScope = ioScope
         override fun getFilter(type: FilterType): BitmapFilter = when (type) {
             FilterType.GrayScale -> GrayScaleFilter()
@@ -128,20 +124,6 @@ private fun getDependencies(ioScope: CoroutineScope, toastState: MutableState<To
         }
 
         val userHome: String? = System.getProperty("user.home")
-        override val imageRepository: ContentRepository<ImageBitmap> =
-            createNetworkRepository(httpClient)
-                .run {
-                    if (userHome != null) {
-                        decorateWithDiskCache(
-                            ioScope,
-                            File(userHome).resolve("Pictures").resolve("imageviewer")
-                        )
-                    } else {
-                        this
-                    }
-                }
-                .adapter { it.toImageBitmap() }
-
         override val notification: Notification = object : PopupNotification(localization) {
             override fun showPopUpMessage(text: String) {
                 toastState.value = ToastState.Shown(text)
