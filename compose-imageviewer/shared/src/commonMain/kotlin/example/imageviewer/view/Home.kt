@@ -47,7 +47,7 @@ fun Home() {
         item {
             Text(
                 text = websiteText,
-                style = MaterialTheme.typography.body2,
+                style = MaterialTheme.typography.body1,
                 modifier = Modifier.padding(start = subpadding)
             )
         }
@@ -68,7 +68,8 @@ fun Home() {
                         desc?.let {
                             Text(
                                 modifier = Modifier.fillMaxWidth(0.6f),
-                                text = it
+                                text = it,
+                                style = MaterialTheme.typography.body1
                             )
                         }
 
