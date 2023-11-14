@@ -3,76 +3,19 @@ package example.imageviewer.view
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Card
-import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Star
-import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.layout
-import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.text.rememberTextMeasurer
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import example.imageviewer.painterResourceCached
-import kotlin.math.ceil
 
-@Composable
-fun TechStack(
-    data: List<String>,
-    ui: List<String>,
-    other: List<String>,
-    modifier: Modifier = Modifier
-) {
-    @Composable
-    fun techDisplay(tech: String) {
-        Text(
-            text = tech,
-            style = MaterialTheme.typography.body1
-        )
-    }
-
-    Card(
-        backgroundColor = MaterialTheme.colors.secondary,
-        modifier = Modifier.width(400.dp)
-    ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = modifier.padding(4.dp).fillMaxWidth()
-        ) {
-            Text(
-                text = "Tech Stack",
-                style = MaterialTheme.typography.h4
-            )
-            Row(
-                horizontalArrangement = Arrangement.SpaceAround,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                val groups = mutableListOf(ui, other, data)
-                val titles = mutableListOf("UI", "Middle", "Data")
-                groups.forEachIndexed { index, group ->
-                    Column {
-                        Text(text = titles[index], style = MaterialTheme.typography.h5)
-
-                        group.forEach {
-                            techDisplay(it)
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
 
 internal val mainPadding = 24.dp
 internal val subpadding = 12.dp
@@ -83,42 +26,6 @@ internal const val botballText =
 internal const val descriptionAndObjectivesText =
     "I am a motivated 19 year old software engineer and native android developer with a background in robotics and web-design. I am looking for a company at which I can sharpen my skills, or learn new ones, while delivering interesting and important products to others. Recently I've been focusing a lot on Jetpack Compose and have been using it since alpha."
 internal const val websiteText = "This website is made with jetpack compose multiplatform and can be viewed as a native android application, Ios Application, desktop Application or Website, all with the same codebase."
-@Composable
-fun SubSection(
-    title: String,
-    subtitle: String? = null,
-    link: String? = null
-) {
-    val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
-    val modifier = Modifier.apply {
-        if (link != null) {
-            this.clickable {
-                uriHandler.openUri(link)
-            }
-        }
-    }
-    Text(
-        text = title,
-        style = MaterialTheme.typography.h3,
-        modifier = modifier
-    )
-
-    subtitle?.let {
-        Text(
-            text = it,
-            style = MaterialTheme.typography.subtitle1,
-            modifier = Modifier.padding(start = subpadding).absoluteOffset(y = (-4).dp)
-        )
-    }
-}
-
-@Composable
-fun Section(title: String) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.h2
-    )
-}
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -370,146 +277,6 @@ fun Home() {
                     .fillMaxWidth()
             ) {
                 LinksSection(imgs, titles, links)
-            }
-        }
-    }
-}
-
-@Composable
-fun LinksSection(imgs: List<String>, titles: List<String>? = null, links: List<String>) {
-    Row(
-        modifier = Modifier.padding(20.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp)
-    ) {
-        val uriHandler = androidx.compose.ui.platform.LocalUriHandler.current
-        imgs.forEachIndexed { index, img ->
-            Row(
-                modifier = Modifier.clickable { uriHandler.openUri(links[index]) },
-                verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-            ) {
-                androidx.compose.foundation.Image(
-                    painter = painterResourceCached(img),
-                    contentDescription = titles?.getOrNull(index) ?: links[index],
-                    contentScale = androidx.compose.ui.layout.ContentScale.Fit,
-                    modifier = Modifier.size(30.dp)
-                )
-
-                Spacer(modifier = Modifier.width(5.dp))
-
-                titles?.get(index)?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.h5
-                    )
-                }
-            }
-        }
-
-    }
-}
-
-@Composable
-fun Modifier.fillWidthOfParent(parentPadding: Dp) = this.then(
-    layout { measurable, constraints ->
-        // This is to force layout to go beyond the borders of its parent
-        val placeable = measurable.measure(
-            constraints.copy(
-                maxWidth = constraints.maxWidth + 2 * parentPadding.roundToPx(),
-            ),
-        )
-        layout(placeable.width, placeable.height) {
-            placeable.place(0, 0)
-        }
-    },
-)
-
-
-/**
- * Responsively lays out all strings in a grid and left aligns each column.
- * @param titles All strings to be laid out.
- * @param modifier Modifier to be applied to the top level composable.
- */
-@Composable
-fun ResponsiveStringGrid(vararg titles: String, modifier: Modifier = Modifier) {
-    val textMeasurer = rememberTextMeasurer()
-    titles.sortByDescending { it.length }
-    var size by remember { mutableStateOf(IntSize.Zero) }
-
-    Row(
-        horizontalArrangement = Arrangement.SpaceBetween,
-        modifier = modifier.onSizeChanged {
-            size = it
-        }.padding(8.dp),
-    ) {
-        val pixels = textMeasurer.measure(titles[0], MaterialTheme.typography.h6).size.width
-        val measuredTitles = mutableMapOf<Dp, MutableList<String>>()
-        val columns = ceil(size.width.toDouble() / pixels.toDouble())
-        val rows = ceil(titles.size / columns)
-        titles.forEach {
-            var done = false
-            val tdp =
-                with(LocalDensity.current) { textMeasurer.measure(it, MaterialTheme.typography.h6).size.width.toDp() }
-            for (entry in measuredTitles) {
-                if (tdp <= entry.key && entry.value.size < rows) {
-                    measuredTitles[entry.key]!!.add(it)
-                    done = true
-                    break
-                }
-            }
-            if (!done) {
-                measuredTitles[tdp] = mutableListOf(it)
-            }
-        }
-
-        measuredTitles.forEach { entry ->
-            Column(verticalArrangement = Arrangement.SpaceBetween, modifier = Modifier.width(entry.key)) {
-                entry.value.forEach {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.h6,
-                        modifier = Modifier
-                    )
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun LanguageDisplay(langs: Map<String, Int>, modifier: Modifier) {
-    Card(
-        backgroundColor = MaterialTheme.colors.secondary,
-        modifier = modifier
-    ) {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth().padding(5.dp)
-        ) {
-            Column {
-                langs.keys.forEach {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.h6
-                    )
-                }
-            }
-            Column {
-                langs.values.forEach {
-                    Row {
-                        for (i in 0 until 5) {
-                            Icon(
-                                Icons.Default.Star,
-                                "",
-                                tint = if (i < it) {
-                                    MaterialTheme.colors.primaryVariant
-                                } else {
-                                    MaterialTheme.colors.surface
-                                }
-                            )
-                        }
-                    }
-                }
             }
         }
     }
