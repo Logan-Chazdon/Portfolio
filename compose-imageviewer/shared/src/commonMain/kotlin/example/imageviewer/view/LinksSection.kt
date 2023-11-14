@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.unit.dp
+import example.imageviewer.model.Link
 import example.imageviewer.painterResourceCached
 
 
@@ -21,32 +22,30 @@ import example.imageviewer.painterResourceCached
  * @param links Where click will navigate the browser to
  */
 @Composable
-fun LinksSection(imgs: List<String>, titles: List<String>? = null, links: List<String>) {
+fun LinksSection(links: List<Link>) {
     Row(
         modifier = Modifier.padding(20.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         val uriHandler = LocalUriHandler.current
-        imgs.forEachIndexed { index, img ->
+        links.forEachIndexed { index, link ->
             Row(
-                modifier = Modifier.clickable { uriHandler.openUri(links[index]) },
+                modifier = Modifier.clickable { uriHandler.openUri(link.link) },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Image(
-                    painter = painterResourceCached(img),
-                    contentDescription = titles?.getOrNull(index) ?: links[index],
+                    painter = painterResourceCached(link.img),
+                    contentDescription = link.title,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier.size(30.dp)
                 )
 
                 Spacer(modifier = Modifier.width(5.dp))
 
-                titles?.get(index)?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.h5
-                    )
-                }
+                Text(
+                    text = link.title,
+                    style = MaterialTheme.typography.h5
+                )
             }
         }
 

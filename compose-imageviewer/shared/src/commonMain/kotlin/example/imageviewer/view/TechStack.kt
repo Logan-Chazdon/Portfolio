@@ -8,15 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import example.imageviewer.model.TechStackData
 
 /***
  * Creates a display showing the technologies used to make a project
  */
 @Composable
 fun TechStack(
-    data: List<String>,
-    ui: List<String>,
-    other: List<String>,
+    data: TechStackData,
     modifier: Modifier = Modifier
 ) {
     @Composable
@@ -43,13 +42,13 @@ fun TechStack(
                 horizontalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                val groups = mutableListOf(ui, other, data)
+                val groups = mutableListOf(data.ui, data.middle, data.data)
                 val titles = mutableListOf("UI", "Middle", "Data")
                 groups.forEachIndexed { index, group ->
                     Column {
                         Text(text = titles[index], style = MaterialTheme.typography.h5)
 
-                        group.forEach {
+                        group?.forEach {
                             techDisplay(it)
                         }
                     }

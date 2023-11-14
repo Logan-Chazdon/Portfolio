@@ -19,7 +19,7 @@ import kotlin.math.ceil
  * @param modifier Modifier to be applied to the top level composable.
  */
 @Composable
-fun ResponsiveStringGrid(vararg titles: String, modifier: Modifier = Modifier) {
+fun ResponsiveStringGrid(titles: MutableList<String>, modifier: Modifier = Modifier) {
     val textMeasurer = rememberTextMeasurer()
     titles.sortByDescending { it.length }
     var size by remember { mutableStateOf(IntSize.Zero) }
