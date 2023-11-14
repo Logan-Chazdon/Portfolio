@@ -56,7 +56,7 @@ fun ApplicationScope.ImageViewerDesktop() {
 
     Window(
         onCloseRequest = ::exitApplication,
-        title = "Image Viewer",
+        title = "Portfolio",
         state = WindowState(
             position = WindowPosition.Aligned(Alignment.Center),
             size = getPreferredWindowSize(720, 857)
