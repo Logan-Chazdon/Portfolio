@@ -1,9 +1,11 @@
 package example.imageviewer.style
 
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.darkColors
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ProvideTextStyle
+import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -47,14 +49,32 @@ object ImageviewerColors {
     fun buttonBackground(isHover: Boolean) = if (isHover) TranslucentBlack else Transparent
 }
 
+
 @Composable
 fun ImageViewerTheme(content: @Composable () -> Unit) {
     isSystemInDarkTheme() // todo check and change colors
+    val Purple500 = Color(0xFF6200EE)
+    val Purple700 = Color(0xFF3700B3)
+    val Teal200 = Color(0xFF03DAC5)
+    val Teal700 = Color(0xFF368D85)
+    val DarkColorPalette = darkColors(
+        primary = Teal700,
+        primaryVariant = Teal200,
+        background = Color.DarkGray,
+        surface = Color.DarkGray,
+        onPrimary = Color.White,
+    )
     MaterialTheme(
-        colorScheme = MaterialTheme.colorScheme.copy(
-            background = ImageviewerColors.background,
-            onBackground = ImageviewerColors.onBackground
-        )
+        colorScheme = if(true) {
+            darkColorScheme(
+                surfaceVariant = Color(red = 24, green = 23, blue = 27)
+            )
+        } else {
+            MaterialTheme.colorScheme.copy(
+                background = ImageviewerColors.background,
+                onBackground = ImageviewerColors.onBackground
+            )
+        }
     ) {
         ProvideTextStyle(LocalTextStyle.current.copy(letterSpacing = 0.sp)) {
             content()

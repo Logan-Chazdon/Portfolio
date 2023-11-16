@@ -56,7 +56,8 @@ fun ResponsiveStringGrid(titles: MutableList<String>, modifier: Modifier = Modif
                     Text(
                         text = it,
                         style = MaterialTheme.typography.h6,
-                        modifier = Modifier
+                        modifier = Modifier,
+                        color = androidx.compose.material3.MaterialTheme.colorScheme.onBackground
                     )
                 }
             }

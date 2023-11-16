@@ -3,11 +3,11 @@ package example.imageviewer.model
 /** Stores all data for the portfolio.
  */
 object Portfolio {
-    internal const val oaText =
+    private const val oaText =
         "During the last weeks of my Python course at CNM, I struggled to find motivation for my final project. Soon, motivation came courtesy of my classmates and our collective lack of organization in the face of the COVID-19 pandemic. So we talked about our collective struggles and I decided that my project could help us support each other. So I created a collaborative task tracking and organization. Not only did this get me a perfect score on my python final but it also helped my class mates and I stay organized and productive through out the pandemic lockdowns."
-    internal const val botballText =
+    private const val botballText =
         "In the KISS Institute for Practical Robotics competition Bot Ball, my partner and I created robots using provided materials. We then used C to program them to complete a set of objectives designed to maximize points and minimize time and potential failure rate. I led all of the programming for our team and used image recognition to complete objectives with randomized locations."
-    internal const val websiteText =
+    private const val websiteText =
         "This website is made with jetpack compose multiplatform and can be viewed as a native android application, Ios Application, desktop Application or Website, all with the same codebase."
 
     internal const val descriptionAndObjectivesText =
@@ -137,7 +137,7 @@ object Portfolio {
 
     val orgs = listOf(
         EducationItem(
-            title ="Nation Honor Society"
+            title ="National Honor Society"
         ),
         EducationItem(
             title = "Student Government",

@@ -1,15 +1,15 @@
 package example.imageviewer.view
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Icon
 import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalUriHandler
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import example.imageviewer.model.Link
 import example.imageviewer.painterResourceCached
@@ -22,7 +22,7 @@ import example.imageviewer.painterResourceCached
  * @param links Where click will navigate the browser to
  */
 @Composable
-fun LinksSection(links: List<Link>) {
+fun LinksSection(links: List<Link>, drawTitles: Boolean = true, size: Dp = 30.dp) {
     Row(
         modifier = Modifier.padding(20.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp)
@@ -33,21 +33,23 @@ fun LinksSection(links: List<Link>) {
                 modifier = Modifier.clickable { uriHandler.openUri(link.link) },
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Image(
+                Icon(
                     painter = painterResourceCached(link.img),
                     contentDescription = link.title,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier.size(30.dp)
+                    modifier = Modifier.size(size),
+                    tint = MaterialTheme.colorScheme.primary
                 )
 
-                Spacer(modifier = Modifier.width(5.dp))
+                if(drawTitles) {
+                    Spacer(modifier = Modifier.width(size / 6))
 
-                Text(
-                    text = link.title,
-                    style = MaterialTheme.typography.h5
-                )
+                    Text(
+                        text = link.title,
+                        style = MaterialTheme.typography.headlineSmall,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
             }
         }
-
     }
 }
