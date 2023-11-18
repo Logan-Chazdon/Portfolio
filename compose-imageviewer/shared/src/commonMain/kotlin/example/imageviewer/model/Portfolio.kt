@@ -56,9 +56,10 @@ object Portfolio {
             )
         ),
         Project(
-            title = "Bot Ball",
+            title = "Bot Ball 2019",
             subtitle = "Robotics Competition",
-            desc = botballText
+            desc = botballText,
+            images = listOf("botball_board.png")
         ),
         Project(
             title = "Portfolio Website",

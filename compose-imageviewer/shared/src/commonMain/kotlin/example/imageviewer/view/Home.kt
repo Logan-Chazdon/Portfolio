@@ -169,20 +169,26 @@ fun Home() {
                                             Image(
                                                 painter = painterResource(res),
                                                 contentDescription = "$title image",
-                                                contentScale = ContentScale.Fit,
-                                                modifier = Modifier.weight(1f)
+                                                contentScale = ContentScale.FillWidth,
+                                                modifier = if(images.size == 1) {
+                                                    Modifier.fillMaxWidth(0.4f)
+                                                } else {
+                                                    Modifier.weight(1f)
+                                                }
                                             )
                                         }
                                     }
                                 }
 
-                                Spacer(modifier = Modifier.weight(0.5f))
-                                Column(modifier = Modifier.weight(1f)) {
-                                    techStack?.let { stack ->
-                                        TechStack(stack, modifier = Modifier.weight(1f))
-                                    }
+                                if(techStack != null || links != null) {
+                                    Spacer(modifier = Modifier.weight(0.5f))
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        techStack?.let { stack ->
+                                            TechStack(stack, modifier = Modifier.weight(1f))
+                                        }
 
-                                    links?.let { links -> LinksSection(links, size = 45.dp) }
+                                        links?.let { links -> LinksSection(links, size = 45.dp) }
+                                    }
                                 }
                             }
                         }
