@@ -70,7 +70,8 @@ fun Home() {
         ) {
             item(i) {
                 Box(
-                    modifier = Modifier.fillMaxWidth().padding(top = mainPadding, start = mainPadding, end = mainPadding, bottom = mainPadding * 4)
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = mainPadding, start = mainPadding, end = mainPadding, bottom = mainPadding * 4)
                 ) {
                     val text = buildAnnotatedString {
                         append("Hello, my name is ")
@@ -87,26 +88,40 @@ fun Home() {
 
                         append("specializing in ")
 
-                        pushStyle(SpanStyle(color = MaterialTheme.colorScheme.inversePrimary, fontWeight = FontWeight.Bold))
+                        pushStyle(
+                            SpanStyle(
+                                color = MaterialTheme.colorScheme.inversePrimary,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
                         append("Jetpack Compose")
                         pop()
                         append(". ")
 
                         append("I have a experience with robotics, web design, and Machine Learning. I am currently searching for a company where I can learn new skills and sharpen the ones I already have. I have been using ")
 
-                        pushStyle(SpanStyle(color = MaterialTheme.colorScheme.inversePrimary, fontWeight = FontWeight.Bold))
+                        pushStyle(
+                            SpanStyle(
+                                color = MaterialTheme.colorScheme.inversePrimary,
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
                         append("Jetpack Compose")
                         pop()
                         append(" ")
 
                         append("since alpha and have used it on multiple projects including this website.")
 
+                        append(" Take a look around at some of my qualifications and previous projects.")
                         toAnnotatedString()
                     }
 
                     Text(text)
                 }
             }
+
+
+            Section("Projects", windowHeight)
 
             Portfolio.projects.forEach {
                 with(it) {
@@ -137,8 +152,7 @@ fun Home() {
                         Column(
                             modifier = Modifier
                                 .heightIn(min = windowHeight / 2)
-                                .padding(mainPadding)
-                            ,
+                                .padding(mainPadding),
                             verticalArrangement = Arrangement.spacedBy(mainPadding)
                         ) {
                             Row(
@@ -175,6 +189,8 @@ fun Home() {
                     }
                 }
             }
+
+            Section("Education", windowHeight)
 
             Portfolio.education.forEach {
                 with(it) {
@@ -263,7 +279,7 @@ fun Home() {
                 )
             }
 
-            items(Portfolio.orgs, {++i}) {
+            items(Portfolio.orgs, { ++i }) {
                 with(it) {
                     Column(
                         modifier = Modifier.padding(start = mainPadding, bottom = mainPadding)
