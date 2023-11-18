@@ -1,5 +1,6 @@
 package example.imageviewer.view
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -14,8 +15,9 @@ import androidx.compose.ui.unit.Dp
  * Creates a title denoting a new section of the page.
  */
 
+@OptIn(ExperimentalFoundationApi::class)
 fun LazyListScope.Section(title: String, windowHeight: Dp) {
-    item {
+    stickyHeader {
         Box(
             contentAlignment = Alignment.Center,
             modifier = Modifier
