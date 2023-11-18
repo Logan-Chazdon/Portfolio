@@ -1,10 +1,14 @@
 package example.imageviewer.view
 
+import androidx.compose.animation.core.AnimationSpec
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
@@ -15,6 +19,9 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalWindowInfo
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import example.imageviewer.model.Portfolio
 import org.jetbrains.compose.resources.ExperimentalResourceApi
@@ -28,6 +35,7 @@ internal val subpadding = 12.dp
 fun Home() {
     val windowSize = LocalWindowInfo.current.containerSize
     val windowHeight = windowSize.height.dp
+    var i = 0
     Scaffold(
         topBar = {
             Box(
@@ -60,20 +68,43 @@ fun Home() {
             modifier = Modifier.padding(paddingValues),
             state = state
         ) {
-            item {
+            item(i) {
                 Box(
-                    modifier = Modifier.fillMaxWidth().padding(mainPadding)
+                    modifier = Modifier.fillMaxWidth().padding(top = mainPadding, start = mainPadding, end = mainPadding, bottom = mainPadding * 4)
                 ) {
-                    Column(
-                        verticalArrangement = Arrangement.spacedBy(36.dp)
-                    ) {
-                        Text(
-                            text = "Hi, I'm Logan Chazdon a native Android engineer specializing in Jetpack Compose.",
-                        )
-                        Text(
-                            text = Portfolio.descriptionAndObjectivesText
-                        )
+                    val text = buildAnnotatedString {
+                        append("Hello, my name is ")
+
+                        pushStyle(SpanStyle(color = MaterialTheme.colorScheme.secondary, fontWeight = FontWeight.Bold))
+                        append("Logan Chazdon ")
+                        pop()
+
+                        append("and I am an ")
+
+                        pushStyle(SpanStyle(color = MaterialTheme.colorScheme.primary))
+                        append("Android Engineer ")
+                        pop()
+
+                        append("specializing in ")
+
+                        pushStyle(SpanStyle(color = MaterialTheme.colorScheme.inversePrimary, fontWeight = FontWeight.Bold))
+                        append("Jetpack Compose")
+                        pop()
+                        append(". ")
+
+                        append("I have a experience with robotics, web design, and Machine Learning. I am currently searching for a company where I can learn new skills and sharpen the ones I already have. I have been using ")
+
+                        pushStyle(SpanStyle(color = MaterialTheme.colorScheme.inversePrimary, fontWeight = FontWeight.Bold))
+                        append("Jetpack Compose")
+                        pop()
+                        append(" ")
+
+                        append("since alpha and have used it on multiple projects including this website.")
+
+                        toAnnotatedString()
                     }
+
+                    Text(text)
                 }
             }
 
@@ -101,11 +132,13 @@ fun Home() {
                         }
                     }
 
-                    item {
+                    item(++i) {
+
                         Column(
                             modifier = Modifier
                                 .heightIn(min = windowHeight / 2)
-                                .padding(mainPadding),
+                                .padding(mainPadding)
+                            ,
                             verticalArrangement = Arrangement.spacedBy(mainPadding)
                         ) {
                             Row(
@@ -161,7 +194,7 @@ fun Home() {
                         }
                     }
 
-                    item {
+                    item(++i) {
                         Column(
                             modifier = Modifier
                                 .heightIn(min = windowHeight / 2)
@@ -205,7 +238,7 @@ fun Home() {
                 )
             }
 
-            item {
+            item(++i) {
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(mainPadding),
                     horizontalArrangement = Arrangement.spacedBy(40.dp)
@@ -230,7 +263,7 @@ fun Home() {
                 )
             }
 
-            items(Portfolio.orgs) {
+            items(Portfolio.orgs, {++i}) {
                 with(it) {
                     Column(
                         modifier = Modifier.padding(start = mainPadding, bottom = mainPadding)
@@ -250,4 +283,29 @@ fun Home() {
             }
         }
     }
+}
+
+@Composable
+fun animateScrollPosition(
+    listState: LazyListState,
+    animationSpec: AnimationSpec<Float> = spring()
+): Float {
+    val layoutInfo = listState.layoutInfo
+    val totalItems = layoutInfo.totalItemsCount
+    val firstVisibleItem = layoutInfo.visibleItemsInfo.firstOrNull()?.index ?: 0
+    val lastVisibleItem = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0
+
+    val visibleItemsCount = if (totalItems > 0) lastVisibleItem - firstVisibleItem + 1 else 1
+
+    val visibleItemsHeight = layoutInfo.visibleItemsInfo
+        .take(visibleItemsCount)
+        .sumBy { it.size }
+
+    val offset = listState.firstVisibleItemScrollOffset
+    val scrollPercentage = offset / visibleItemsHeight.toFloat()
+
+    return animateFloatAsState(
+        targetValue = scrollPercentage,
+        animationSpec = animationSpec
+    ).value
 }

@@ -10,9 +10,6 @@ object Portfolio {
     private const val websiteText =
         "This website is made with jetpack compose multiplatform and can be viewed as a native android application, Ios Application, desktop Application or Website, all with the same codebase."
 
-    internal const val descriptionAndObjectivesText =
-        "I am a motivated 19 year old software engineer and native android developer with a background in robotics and web-design. I am looking for a company at which I can sharpen my skills, or learn new ones, while delivering interesting and important products to others. Recently I've been focusing a lot on Jetpack Compose and have been using it since alpha."
-
     val projects = listOf(
         Project(
             title = "D&D Helper",
