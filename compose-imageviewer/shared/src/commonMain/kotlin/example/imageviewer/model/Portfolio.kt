@@ -8,7 +8,8 @@ object Portfolio {
     private const val botballText =
         "In the KISS Institute for Practical Robotics competition Bot Ball, my partner and I created robots using provided materials. We then used C to program them to complete a set of objectives designed to maximize points and minimize time and potential failure rate. I led all of the programming for our team and used image recognition to complete objectives with randomized locations."
     private const val websiteText =
-        "This website is made with jetpack compose multiplatform and can be viewed as a native android application, Ios Application, desktop Application or Website, all with the same codebase."
+        "\n" +
+                "This website is made with Jetpack Compose multiplatform and can be viewed as a native android application, Ios Application, desktop Application or Website, all with the same codebase. \n"
 
     val projects = listOf(
         Project(
