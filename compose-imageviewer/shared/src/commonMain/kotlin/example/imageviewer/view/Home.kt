@@ -169,7 +169,7 @@ fun Home() {
                                             Image(
                                                 painter = painterResource(res),
                                                 contentDescription = "$title image",
-                                                contentScale = ContentScale.FillWidth,
+                                                contentScale = if(images.size == 1) ContentScale.Inside else ContentScale.Fit,
                                                 modifier = if(images.size == 1) {
                                                     Modifier.fillMaxWidth(0.4f)
                                                 } else {
