@@ -170,6 +170,11 @@ object Portfolio {
             img = "email-icon.png",
             title = "loganchazdon@gmail.com",
             link  = "loganchazdon@gmail.com"
+        ),
+        Link(
+            img = "playstore_icon.png",
+            title = "Google Play",
+            link = "https://play.google.com/store/apps/developer?id=Logan+Chazdon"
         )
     )
 }
