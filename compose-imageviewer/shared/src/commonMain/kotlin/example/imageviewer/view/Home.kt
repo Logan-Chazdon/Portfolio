@@ -11,10 +11,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -35,6 +34,8 @@ internal val subpadding = 12.dp
 fun Home() {
     val windowSize = LocalWindowInfo.current.containerSize
     val windowHeight = windowSize.height.dp
+    val snackbarHostState = remember { SnackbarHostState() }
+
     var i = 0
     Scaffold(
         topBar = {
@@ -57,9 +58,12 @@ fun Home() {
                         )
                     }
 
-                    LinksSection(Portfolio.links, false, 45.dp)
+                    LinksSection(Portfolio.links, false, 45.dp, snackbarHostState)
                 }
             }
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
         }
     ) { paddingValues ->
         val state = rememberLazyListState()
@@ -187,7 +191,7 @@ fun Home() {
                                             TechStack(stack, modifier = Modifier.weight(1f))
                                         }
 
-                                        links?.let { links -> LinksSection(links, size = 45.dp) }
+                                        links?.let { links -> LinksSection(links, size = 45.dp, snackbarHostState =  snackbarHostState) }
                                     }
                                 }
                             }
