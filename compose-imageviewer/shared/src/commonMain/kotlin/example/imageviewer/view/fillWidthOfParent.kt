@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Dp
 
-/***
+/**
  * Allows a composable to take up the space of its parents ignoring padding.
  * @param parentPadding This padding of its parent
  */
