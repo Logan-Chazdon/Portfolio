@@ -1,5 +1,5 @@
-import org.jetbrains.kotlin.gradle.dsl.KotlinJsCompile
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+
 
 plugins {
     kotlin("multiplatform")
@@ -37,13 +37,13 @@ kotlin {
         browser {
             commonWebpackConfig {
                 devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    port = 80
                     // Uncomment and configure this if you want to open a browser different from the system default 
                     // open = mapOf(
                     //     "app" to mapOf(
                     //         "name" to "google chrome"
                     //     )
                     // )
-
                     static = (static ?: mutableListOf()).apply {
                         // Serve sources to debug inside browser
                         add(project.rootDir.path)
