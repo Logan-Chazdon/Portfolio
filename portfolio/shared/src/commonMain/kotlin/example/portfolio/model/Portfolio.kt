@@ -167,11 +167,6 @@ object Portfolio {
             link = "https://www.linkedin.com/in/logan-chazdon-76940a248"
         ),
         Link(
-            img = "email-icon.png",
-            title = "loganchazdon@gmail.com",
-            link  = "loganchazdon@gmail.com"
-        ),
-        Link(
             img = "playstore_icon.png",
             title = "Google Play",
             link = "https://play.google.com/store/apps/developer?id=Logan+Chazdon"
