@@ -21,11 +21,8 @@ import example.portfolio.painterResourceCached
 import kotlinx.coroutines.launch
 
 
-/***
+/**
  * Renders a display with Icons to show where the project can be viewed and link to said locations.
- * @param imgs The icon to display. Ex githubLogo
- * @param titles The title of the location. Ex github
- * @param links Where click will navigate the browser to
  */
 @Composable
 fun LinksSection(links: List<Link>, drawTitles: Boolean = true, size: Dp = 30.dp, snackbarHostState: SnackbarHostState) {
