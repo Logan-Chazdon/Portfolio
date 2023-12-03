@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
 import example.portfolio.model.TechStackData
 import org.jetbrains.skia.skottie.Logger
 
-/***
+/**
  * Creates a display showing the technologies used to make a project
  */
 @OptIn(ExperimentalComposeUiApi::class)
