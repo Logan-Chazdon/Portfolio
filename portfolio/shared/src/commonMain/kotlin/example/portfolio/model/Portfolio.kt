@@ -78,7 +78,7 @@ object Portfolio {
     val education = listOf(
         School(
             name = "Central New Mexico Community College",
-            desc = "Attended from xx/xx/xx to xx/xx/xx as a dual credit student",
+            desc = "Attended from May 2019 to April 2021 as a dual credit student",
             courses = mutableListOf(
                 "Android Development",
                 "Java",
@@ -90,7 +90,7 @@ object Portfolio {
         ),
         School(
             name = "Media Arts Collaborative Charter School",
-            desc = "Attended from xx/xx/xx to xx/xx/xx in the programming and design pathway",
+            desc = "Attended from August 2018 to May 2021 in the programming and design pathway",
             courses = mutableListOf(
                 "Web Design",
                 "Graphic Design",
