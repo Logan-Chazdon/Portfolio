@@ -6,4 +6,4 @@ config.resolve ?? (config.resolve = {});
 config.resolve.alias ?? (config.resolve.alias = {});
 config.resolve.alias.skia = false;
 
-config.devServer.allowedHosts= ['.chazdon.com']
+config.devServer.allowedHosts= ['.chazdon.me']
