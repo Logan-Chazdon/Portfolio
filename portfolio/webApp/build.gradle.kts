@@ -65,6 +65,15 @@ kotlin {
                 implementation(compose.ui)
                 implementation(compose.foundation)
                 implementation(compose.material)
+
+                implementation(npm("follow-redirects", "^1.14.8"))
+                implementation(npm("nanoid", "^3.1.31"))
+                implementation(npm("minimist", "^1.2.6"))
+                implementation(npm("async", "^2.6.4"))
+                implementation(npm("node-forge", "^1.3.0"))
+                implementation(npm("webpack-dev-middleware", "^5.3.4"))
+                implementation(npm("express", "^4.19.2"))
+
                 @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
                 implementation(compose.components.resources)
             }
